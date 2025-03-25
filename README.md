@@ -1,6 +1,6 @@
 # Grupo 5
 
-Este es el repositorio del *Grupo 5*, cuyos integrantes son:
+Este es el repositorio del *Grupo 5*, cuyos integrantes del **paralelo 200** son:
 
  * Rodrigo Flores - 202173523-2
  * Aylin Rojas - 202173531-3
