@@ -1,0 +1,11 @@
+{% extends "users/base.html" %}
+{% load widget_tweaks %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="card p-4">
+  {% with role=user.groups.first.name %}
+  {% include "users/dashboard_"|add:role|add:".html" %}
+  {% endwith %}
+</div>
+{% endblock %}

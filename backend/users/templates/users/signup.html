@@ -1,0 +1,23 @@
+{% extends "users/base.html" %}
+{% load widget_tweaks %}
+{% block title %}Registro{% endblock %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 500px;">
+  <div class="card-body">
+    <h2 class="card-title mb-3">Crea tu cuenta</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+      {% for field in form %}
+        <div class="mb-3">
+          <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+          {{ field|add_class:"form-control" }}
+          {{ field.errors }}
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-success w-100">Crear cuenta</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
