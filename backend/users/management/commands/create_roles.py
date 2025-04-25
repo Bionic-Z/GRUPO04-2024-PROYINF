@@ -9,6 +9,6 @@ class Command(BaseCommand):
         for role in roles:
             group, created = Group.objects.get_or_create(name=role)
             if created:
-                self.stdout.write(self.style.SUCCESS(f'Created rol: {role}'))
+                self.stdout.write(self.style.SUCCESS(f'Rol creado: {role}'))
             else:
-                self.stdout.write(self.style.WARNING(f'Already created: {role}'))
+                self.stdout.write(self.style.WARNING(f'Ya existe: {role}'))
