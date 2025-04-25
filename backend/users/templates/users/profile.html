@@ -1,0 +1,23 @@
+{% extends "users/base.html" %}
+{% block title %}Mi Perfil{% endblock %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 500px;">
+  <div class="card-body">
+    <h2 class="card-title mb-3">Mi Perfil</h2>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item"><strong>Usuario:</strong> {{ user_obj.username }}</li>
+      <li class="list-group-item"><strong>Email:</strong> {{ user_obj.email }}</li>
+      <!-- <li class="list-group-item"><strong>Nombre:</strong> {{ user_obj.first_name }} {{ user_obj.last_name }}</li> -->
+      <li class="list-group-item">
+        <strong>Roles:</strong>
+        {% for g in user_obj.groups.all %}
+        <span class="badge bg-info text-dark">{{ g.name }}</span>
+        {% empty %}
+        <span class="text-muted">Sin roles asignados</span>
+        {% endfor %}
+      </li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

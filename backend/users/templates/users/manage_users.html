@@ -1,0 +1,130 @@
+{# users/templates/users/manage_users.html #}
+{% extends "users/base.html" %}
+{% block title %}Gestionar Usuarios{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Gestionar Usuarios</h2>
+  <form class="d-flex" method="get">
+    <input name="q" value="{{ q }}" class="form-control me-2" placeholder="Buscar usuario..." autocomplete="off" />
+    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+  </form>
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Usuario</th>
+      <th>Email</th>
+      <th>Roles</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in users_page %}
+    <tr>
+      <td>{{ u.username }}</td>
+      <td>{{ u.email }}</td>
+      <td>
+        {% for g in u.groups.all %}
+          <span class="badge bg-info text-dark">{{ g.name }}</span>
+        {% empty %}
+          <span class="text-muted">—</span>
+        {% endfor %}
+      </td>
+      <td>
+        <button
+          class="btn btn-sm btn-outline-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#editRolesModal"
+          data-username="{{ u.username }}"
+          data-userid="{{ u.id }}"
+          data-usergroup="{{ u.groups.first.name }}"
+        >
+          Editar rol
+        </button>      
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<nav>
+  <ul class="pagination">
+    {% if users_page.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ users_page.previous_page_number }}&q={{ q }}">Anterior</a>
+      </li>
+    {% endif %}
+    {% for num in users_page.paginator.page_range %}
+      <li class="page-item {% if users_page.number == num %}active{% endif %}">
+        <a class="page-link" href="?page={{ num }}&q={{ q }}">{{ num }}</a>
+      </li>
+    {% endfor %}
+    {% if users_page.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{ users_page.next_page_number }}&q={{ q }}">Siguiente</a>
+      </li>
+    {% endif %}
+  </ul>
+</nav>
+
+{# Modal para editar roles #}
+<div
+  class="modal fade"
+  id="editRolesModal"
+  tabindex="-1"
+  aria-labelledby="editRolesLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <form method="post" action="{% url 'update_user_roles' %}">
+      {% csrf_token %}
+      <input type="hidden" name="user_id" id="modalUserId" />
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editRolesLabel">Editar roles de <span id="modalUsername"></span></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          {% for g in groups %}
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                name="role"
+                value="{{ g.id }}"
+                id="roleRadio{{ g.id }}"
+              />
+              <label class="form-check-label" for="roleRadio{{ g.id }}">
+                {{ g.name }}
+              </label>
+            </div>
+          {% endfor %}
+        </div>     
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  var editModal = document.getElementById('editRolesModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var username = button.getAttribute('data-username');
+    var userid = button.getAttribute('data-userid');
+    var usergroup = button.getAttribute('data-usergroup');
+
+    document.getElementById('modalUsername').textContent = username;
+    document.getElementById('modalUserId').value = userid;
+
+    document.querySelectorAll('#editRolesModal .form-check-input').forEach(function(rb) {
+      rb.checked = (rb.nextElementSibling.textContent.trim() === usergroup);
+    });
+  });
+</script>
+{% endblock %}
