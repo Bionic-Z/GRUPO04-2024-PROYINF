@@ -1,0 +1,35 @@
+services:
+  db:
+    image: postgres:15
+    ports:
+      - "5433:5432" 
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./backend/docker/postgres-init:/docker-entrypoint-initdb.d
+    networks:
+      - app
+
+  web:
+    build: ./backend
+    command: >
+      sh -c "python manage.py migrate --noinput &&
+             python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ./backend:/usr/src/app
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - app
+
+volumes:
+  postgres_data:
+
+networks:
+  app:

@@ -1,0 +1,36 @@
+# Python/Django related
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.sqlite3
+
+# Environment variables
+.env
+
+# Virtual environments
+env/
+venv/
+.venv/
+ENV/
+VENV/
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Static and media files
+/staticfiles/
+/media/
+
+# Migrations
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# macOS related
+.DS_Store
+.AppleDouble
+.LSOverride

@@ -1,0 +1,131 @@
+{# users/templates/users/manage_users.html #}
+{% extends "users/base.html" %}
+{% block title %}Gestionar Usuarios{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2>Gestionar Usuarios</h2>
+  <form class="d-flex" method="get">
+    <input name="q" value="{{ q }}" class="form-control me-2" placeholder="Buscar usuario..." autocomplete="off" />
+    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+  </form>
+</div>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>Usuario</th>
+      <th>Email</th>
+      <th>Roles</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for u in users_page %}
+    <tr>
+      <td>{{ u.username }}</td>
+      <td>{{ u.email }}</td>
+      <td>
+        {% for g in u.groups.all %}
+        <span class="badge bg-info text-dark">{{ g.name }}</span>
+        {% empty %}
+        <span class="text-muted">—</span>
+        {% endfor %}
+      </td>
+      <td>
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#editRoleModal"
+          data-user-id="{{ u.id }}"
+          data-username="{{ u.username }}"
+          data-current-role="{{ u.groups.first.id|default:'' }}"
+        >
+          Editar rol
+        </button>
+      </td>      
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<nav>
+  <ul class="pagination">
+    {% if users_page.has_previous %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ users_page.previous_page_number }}&q={{ q }}">Anterior</a>
+    </li>
+    {% endif %}
+    {% for num in users_page.paginator.page_range %}
+    <li class="page-item {% if users_page.number == num %}active{% endif %}">
+      <a class="page-link" href="?page={{ num }}&q={{ q }}">{{ num }}</a>
+    </li>
+    {% endfor %}
+    {% if users_page.has_next %}
+    <li class="page-item">
+      <a class="page-link" href="?page={{ users_page.next_page_number }}&q={{ q }}">Siguiente</a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+
+<div class="modal fade" id="editRoleModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="post" action="{% url 'update_user_roles' %}" class="modal-content">
+      {% csrf_token %}
+      <input type="hidden" name="user_id" id="modal-user-id" />
+      <div class="modal-header">
+        <h5 class="modal-title">Editar rol de <span id="modal-username"></span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        {% for g in groups %}
+        <div class="form-check">
+          <input
+            class="form-check-input"
+            type="radio"
+            name="role"
+            id="role-{{ g.id }}"
+            value="{{ g.id }}"
+          />
+          <label class="form-check-label" for="role-{{ g.id }}">
+            {{ g.name }}
+          </label>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const modalEl = document.getElementById('editRoleModal');
+  
+    modalEl.addEventListener('show.bs.modal', function (event) {
+      const btn = event.relatedTarget;
+      const userId = btn.getAttribute('data-user-id');
+      const username = btn.getAttribute('data-username');
+      const currentRoleId = btn.getAttribute('data-current-role-id');
+  
+      document.getElementById('modal-user-id').value = userId;
+      document.getElementById('modal-username').textContent = username;
+  
+      modalEl.querySelectorAll('input[name="role"]').forEach(r => {
+        r.checked = false;
+      });
+  
+      if (currentRoleId) {
+        const toCheck = modalEl.querySelector(`input[name="role"][value="${currentRoleId}"]`);
+        if (toCheck) toCheck.checked = true;
+      }
+    });
+  });
+  </script>
+  
+{% endblock %}
