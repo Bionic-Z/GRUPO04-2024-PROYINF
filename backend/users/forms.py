@@ -10,7 +10,18 @@ class SignUpForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ["username", "email", "password1", "password2"]
+        fields = ["username", "email", "first_name", "last_name", "password1", "password2"]
+        labels = {
+            "username": "Nombre de usuario",
+            "email": "Correo electrónico",
+            "first_name": "Nombre",
+            "last_name": "Apellido",
+            "password1": "Contraseña",
+            "password2": "Confirmar contraseña",
+        }
+        help_texts = {
+            "username": "Requerido. 150 caracteres o menos. Letras, números y @/./+/-/_ únicamente.",
+        }
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -24,6 +35,15 @@ class CustomUserCreationForm(UserCreationForm):
             'bio',
             'phone',
         )
+        labels = {
+            "username": "Nombre de usuario",
+            "email": "Correo electrónico",
+            "first_name": "Nombre",
+            "last_name": "Apellido",
+            "bio": "Biografía",
+            "phone": "Teléfono",
+        }
+
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
@@ -36,3 +56,11 @@ class CustomUserChangeForm(UserChangeForm):
             'bio',
             'phone',
         )
+        labels = {
+            "username": "Nombre de usuario",
+            "email": "Correo electrónico",
+            "first_name": "Nombre",
+            "last_name": "Apellido",
+            "bio": "Biografía",
+            "phone": "Teléfono",
+        }

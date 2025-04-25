@@ -70,16 +70,21 @@ def manage_users(request):
 @login_required
 def update_user_roles(request):
     if not request.user.groups.filter(name="admin").exists():
+        messages.error(request, "No tienes permiso para esto.")
         return redirect("dashboard")
 
     user_id = request.POST.get("user_id")
-    group_ids = request.POST.getlist("groups")
-    try:
-        u = User.objects.get(id=user_id)
-        u.groups.set(Group.objects.filter(id__in=group_ids))
-        messages.success(request, f"Roles actualizados para {u.username}")
-    except User.DoesNotExist:
-        messages.error(request, "Usuario no encontrado")
+    role_id = request.POST.get("role")
+
+    u = get_object_or_404(User, pk=user_id)
+    if role_id:
+        group = get_object_or_404(Group, pk=role_id)
+        u.groups.set([group])
+        messages.success(request, f"Rol de {u.username} actualizado a {group.name}.")
+    else:
+        u.groups.clear()
+        messages.warning(request, f"Se ha removido el rol de {u.username}.")
+
     return redirect("manage_users")
 
 

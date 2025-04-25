@@ -6,7 +6,11 @@
 <div class="card p-4">
   {% with role=user.groups.first.name %}
   {% if user.is_authenticated %}
-    {% include "users/dashboard_"|add:role|add:".html" %}
+    {% if role %}
+      {% include "users/dashboard_"|add:role|add:".html" %}
+    {% else %}
+      {% include "users/dashboard_guest.html" %}
+    {% endif %}
   {% else %}
     {% include "users/dashboard_guest.html" %}
   {% endif %}
