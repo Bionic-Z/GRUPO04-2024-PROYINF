@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
@@ -13,7 +13,7 @@ from django.contrib import messages
 User = get_user_model()
 
 
-@login_required
+# @login_required
 def dashboard_view(request):
     context = {
         "is_admin": request.user.groups.filter(name="admin").exists(),
@@ -87,9 +87,47 @@ def update_user_roles(request):
 def profile_view(request):
     context = {
         "is_admin": request.user.groups.filter(name="admin").exists(),
-        "user_obj": request.user
+        "user_obj": request.user,
     }
     return render(request, "users/profile.html", context)
+
+
+@login_required
+def edit_user_role(request, pk):
+    if not request.user.groups.filter(name="admin").exists():
+        messages.error(request, "No tienes permiso para esto.")
+        return redirect("dashboard")
+
+    user_obj = get_object_or_404(User, pk=pk)
+    groups = Group.objects.all()
+
+    if request.method == "POST":
+        role_id = request.POST.get("role")
+        try:
+            if role_id:
+                group = Group.objects.get(pk=role_id)
+                user_obj.groups.set([group])
+                messages.success(
+                    request, f"Rol de {user_obj.username} actualizado a {group.name}."
+                )
+            else:
+                user_obj.groups.clear()
+                messages.warning(
+                    request, f"Se ha removido el rol de {user_obj.username}."
+                )
+            return redirect("manage_users")
+        except Group.DoesNotExist:
+            messages.error(request, "Rol no válido.")
+            return redirect("manage_users")
+
+    return render(
+        request,
+        "users/edit_user_role.html",
+        {
+            "user_obj": user_obj,
+            "groups": groups,
+        },
+    )
 
 
 class SignUpView(generic.CreateView):

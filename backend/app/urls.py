@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
-from users.views import SignUpView, dashboard_view, manage_users, update_user_roles, profile_view
+from users.views import SignUpView, dashboard_view, manage_users, update_user_roles, profile_view, edit_user_role
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('usuarios/', manage_users, name='manage_users'),
     path('usuarios/update_roles/', update_user_roles, name='update_user_roles'),
     path('profile/', profile_view, name='profile'),
+    path('usuarios/<int:pk>/edit-role/', edit_user_role, name='edit_user_role'),
 ]

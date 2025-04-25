@@ -32,17 +32,13 @@
           <span class="text-muted">—</span>
         {% endfor %}
       </td>
-      <td>
-        <button
-          class="btn btn-sm btn-outline-primary"
-          data-bs-toggle="modal"
-          data-bs-target="#editRolesModal"
-          data-username="{{ u.username }}"
-          data-userid="{{ u.id }}"
-          data-usergroup="{{ u.groups.first.name }}"
-        >
-          Editar rol
-        </button>      
+        <td>
+          <a 
+            href="{% url 'edit_user_role' u.id %}" 
+            class="btn btn-sm btn-outline-primary"
+          >
+            Editar rol
+          </a>
       </td>
     </tr>
     {% endfor %}
@@ -68,48 +64,6 @@
     {% endif %}
   </ul>
 </nav>
-
-{# Modal para editar roles #}
-<div
-  class="modal fade"
-  id="editRolesModal"
-  tabindex="-1"
-  aria-labelledby="editRolesLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <form method="post" action="{% url 'update_user_roles' %}">
-      {% csrf_token %}
-      <input type="hidden" name="user_id" id="modalUserId" />
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editRolesLabel">Editar roles de <span id="modalUsername"></span></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-        <div class="modal-body">
-          {% for g in groups %}
-            <div class="form-check">
-              <input
-                class="form-check-input"
-                type="radio"
-                name="role"
-                value="{{ g.id }}"
-                id="roleRadio{{ g.id }}"
-              />
-              <label class="form-check-label" for="roleRadio{{ g.id }}">
-                {{ g.name }}
-              </label>
-            </div>
-          {% endfor %}
-        </div>     
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="submit" class="btn btn-primary">Guardar cambios</button>
-        </div>
-      </div>
-    </form>
-  </div>
-</div>
 
 <script>
   var editModal = document.getElementById('editRolesModal');
