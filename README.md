@@ -1,79 +1,153 @@
-# Grupo 5
+# Proyecto Ingeniería de Software
 
-Este es el repositorio del *Grupo 5*, cuyos integrantes del **paralelo 200** son:
+## Integrantes
 
- * Rodrigo Flores - 202173523-2
- * Aylin Rojas - 202173531-3
- * Nestor Guajardo - 202173132-6
- * Francisca Zavala - 202173632-8
- * **Tutor**: Benjamín Daza
-   
-## Proyecto a seguir
+- Rodrigo Flores – 202173523-2
+- Aylin Rojas – 202173531-3
+- Nestor Guajardo – 202173132-6
+- Francisca Zavala – 202173632-8
+- **Tutor:** Benjamín Daza
 
-Se seguirá trabajando con el proyecto 2024-02 Grupo 4 de este mismo repositorio
+---
 
-## Wiki
+## Descripción
 
-Puede acceder a la Wiki mediante el siguiente [enlace](https://github.com/Bionic-Z/GRUPO04-2024-PROYINF/wiki)
+Este proyecto es la refactorización de la versión previa desarrollada en PHP a Python, utilizando las siguientes tecnologías:
 
-## Videos
+- **Django:** Framework de servidor
+- **PostgreSQL:** Sistema gestor de base de datos
+- **Docker & Docker Compose:** Contenerización y orquestación
+- **Bootstrap:** Framework CSS para el front-end
 
-* [Video presentación cliente](https://www.youtube.com/watch?v=abJau21SDIk)
-* [Video prototipo](https://youtu.be/uakP8lTkoxk)
-* [Video presentación final proyecto](https://youtu.be/biPBmX9duXE?si=PDzDYRDL1AYbFLQ4)
+---
 
-## Aclaraciones
+## Requisitos previos
 
-- Prototipo 1 no contiene los mismos archivos que hito-3. No se tiene una base de datos, actualmente.
+- Docker (v20.10 o superior)
+- Docker Compose (v1.29 o superior)
+- Git (opcional, dependiendo de la forma de descarga)
+
+---
+
+## Instalación y ejecución
+
+1. **Clonar el repositorio**
+   ```bash
+   git clone https://github.com/Bionic-Z/GRUPO04-2024-PROYINF.git
+   cd GRUPO04-2024-PROYINF
+   ```
+
+2. **Configurar variables de entorno**
+
+   Copiar el archivo de ejemplo y utilizar a gusto:
+   > [!NOTE]  
+   > Con las credenciales por defecto, el proyecto puede funcionar perfectamente.
+   ```bash
+   cp .env.example .env
+   ```
+
+   Asegurar de que `.env` contenga al menos:
+   ```ini
+   POSTGRES_USER=django_user
+   POSTGRES_PASSWORD=secretpassword
+   POSTGRES_DB=django_db
+   POSTGRES_HOST=db
+   POSTGRES_PORT=5432
+
+   DJANGO_SECRET_KEY=tu_clave_secreta_aqui
+   DJANGO_DEBUG=True
+   ```
+
+3. **Construir y levantar los contenedores**
+
+   ```bash
+   docker-compose up -d --build
+   ```
+
+4. **Aplicar migraciones**
+
+   ```bash
+   docker-compose run --rm web python manage.py migrate
+   ```
+
+5. **Cargar datos de prueba**
+
+   ```bash
+   docker-compose run --rm web python manage.py create_roles
+   docker-compose run --rm web python manage.py seed_users --count 50
+   ```
+
+6. **Abrir la aplicación**
+
+   Navega a [http://localhost:8000/](http://localhost:8000/)
 
 
-## Aspectos ténicos:
--Para la ejecución del código es necesario el uso de Xampp con Apache y MySQL (https://www.apachefriends.org/es/download.html)
+> [!WARNING]  
+> Si el puerto de host `5433` está ocupado, puedes mapear otro puerto en `docker-compose.yml`:
+>
+> ```yaml
+> services:
+>   db:
+>     ports:
+>       - "<PUERTO_HOST>:5432"
+> ```
 
--Para su creación se hizo uso de Visual Studio Code (https://code.visualstudio.com/Download) mediante el uso de complemementos de php. Incluye además el uso de Xampp (se recomienda ver tutoriales para su correcto funcionamiento)
+---
 
-**Instrucciones:**
+## Estructura del proyecto
 
-  1- Tener instalado Xampp con Apache y MySQL (Xampp permite la descarga de Apache y MySQL dentro de él) (asegurar mismas versiones que las utilizadas para los archivos siguientes), caso contrario, debe instalarlo asegurando seguir un tutorial para su correcta instalación (verifique permisos del usuario y path) (https://youtu.be/TlrEvfbGTJ4?si=oPLV4z0CCkWrslIC recomendación)
-  
-  2- Descargar archivos del tag "hito-5"
-  
-  3- Descomprimir el archivo "GRUPO04-2024-PROYINF-main"
-  
-  4- Llevar **los archivos descomprimidos de "proyecto-hito5.zip"** a htdocs en Xampp (se recomienda borrar los archivos presentes en htdocs, a menos que sea un proyecto en carpeta) (se deja el código del avance anterior 'proyecto.zip' en caso de necesitarlo)
+```text
+.
+├── README.md
+├── backend
+│   ├── Dockerfile
+│   ├── app
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   └── wsgi.py
+│   ├── docker
+│   │   └── postgres-init
+│   ├── manage.py
+│   ├── requirements.txt
+│   └── users
+│       ├── __init__.py
+│       ├── admin.py
+│       ├── apps.py
+│       ├── forms.py
+│       ├── management
+│       ├── migrations
+│       ├── models.py
+│       ├── templates
+│       ├── tests.py
+│       └── views.py
+└── docker-compose.yml
+```
 
-  5- Instalar las dependencias para python: mysql-connector-python, requests, beautifulsoup4
-	    Para esto basta con escribir en la consola:
-		    pip install mysql-connector-python
-		    pip install requests
-		    pip install beautifulsoup4
-  
-  5- Abrir el panel de control de Xampp e iniciar Apache y MySQL
+---
 
-  6- Abrir PhpMyAdmin de MySQL y crear una nueva base de datos llamada 'boletines', seleccionar la base de datos e importar el archivo 'boletines.sql'
-  
-  7- Abrir "http://localhost/proyecto-hito5/proyecto/init.html" con google u otro navegador
+## Información histórica (versión previa en PHP)
 
-  7.1- Cuando se ingrese a la sección de parámetros y fuentes, se pueden agregar una de estas dos fuentes (o ambas), para recopilar noticias y/o productos en sus respectivas tablas en la base de datos:
-	  https://www.agritechfuture.com/
-	  https://www.agritechtomorrow.com/products.php
+> La versión anterior fue desarrollada para el curso **Análisis y Diseño de Software (INF236)** en PHP, utilizando XAMPP, Apache y MySQL.
 
-Siguiendo estas instrucciones podrá utilizar los archivos presentes de manera correcta
+<details>
+<summary>Ver detalles de la versión previa</summary>
 
-**IMPORTANTE:** 
-- Xampp control versión 3.3.0
-- Apache HTTP versión 2.4.58
-- PHP versión 8.2.12
-- MySQL versión 10.4.32.0
-- Versión del servidor: 10.4.32-MariaDB
-- **Creación en Windows**
-- **Guarde en htdocs de la forma: proyecto-hito5/proyecto/...**
-  
-**NOTAS:** 
-- Dentro hay una carpeta 'config' con un archivo 'config.php' que tiene el host, usuario y contraseña por defecto para ingresar a la base de datos si tienen un puerto, usuario o contraseña en especifico deben cambiar esos apartados, y también deben cambiarlos en el archivo scrape.py.
-- Sólo hay 6 productos en la segunda página, en la página de noticias hay muchas pero solo dejé las primeras 20 para que no tarde demasiado.
-- Para probar funcionamiento, solo se tienen tres usuarios de prueba; email: admin@admin.cl password: adminpass   , email: user@gmail.com password: userpass   , email: especialista@especialista.cl password: especialista123
-- Se tienen 5 boletines para buscar; "El cultivo del pepino dulce", "Boletín de vitivinicultura para la zona de mesoclima de la Patagonia occidental de la Región de Aysén", "Manual del maestro quesero", "Recetario Charcutería Cerdo Avellanero de Lumaco" y "Estrategia de Innovación y Desarrollo Agrícola para la Región de Tarapacá"
-- Para el ingreso de parámetros para crear boletines se sugieren dos combinaciones; palabras clave: "agua" y/o "hidricos"  fuente: www.wikipedia.cl,  palabras clave: "climatico" y/o "mitiga"  fuente: www.wikipedia.cl
-            
+**Repositorio antiguo:** [GRUPO04-2024-PROYINF (tag `hito-5`)](https://github.com/Bionic-Z/GRUPO04-2024-PROYINF/tree/hito-5)
+
+**Aspectos técnicos:**
+- Apache HTTP 2.4.58 + PHP 8.2.12
+- MySQL / MariaDB 10.4.32
+- XAMPP v3.3.0
+- Dependencias Python (scrapers): `mysql-connector-python`, `requests`, `beautifulsoup4`
+
+**Flujo de instalación:**
+1. Instalar XAMPP (Windows)
+2. Colocar archivos en `htdocs/proyecto-hito5`
+3. Importar `boletines.sql` en PhpMyAdmin
+4. Ejecutar `python scrape.py` para poblar tablas
+5. Acceder a `http://localhost/proyecto-hito5/proyecto/init.html`
+
+</details>
 
