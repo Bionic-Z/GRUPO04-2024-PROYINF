@@ -38,10 +38,7 @@ Este proyecto es la refactorización de la versión previa desarrollada en PHP a
    ```
 
 2. **Configurar variables de entorno**
-
    Copiar el archivo de ejemplo y utilizar a gusto:
-   > [!NOTE]  
-   > Con las credenciales por defecto, el proyecto puede funcionar perfectamente.
    ```bash
    cp .env.example .env
    ```
@@ -57,6 +54,8 @@ Este proyecto es la refactorización de la versión previa desarrollada en PHP a
    DJANGO_SECRET_KEY=tu_clave_secreta_aqui
    DJANGO_DEBUG=True
    ```
+> [!NOTE]
+> Con las credenciales por defecto, el proyecto puede funcionar perfectamente.
 
 3. **Construir y levantar los contenedores**
 
