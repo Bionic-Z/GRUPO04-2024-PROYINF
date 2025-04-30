@@ -51,7 +51,7 @@ Este proyecto es la refactorización de la versión previa desarrollada en PHP a
    POSTGRES_HOST=db
    POSTGRES_PORT=5432
 
-   DJANGO_SECRET_KEY=tu_clave_secreta_aqui
+   DJANGO_SECRET_KEY=django_secret_key
    DJANGO_DEBUG=True
    ```
 > [!NOTE]
