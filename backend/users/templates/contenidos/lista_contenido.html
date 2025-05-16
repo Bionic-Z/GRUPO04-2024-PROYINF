@@ -1,0 +1,36 @@
+<h1>Contenidos guardados</h1>
+
+<ul>
+  {% for contenido in contenidos %}
+  <li>
+    <a href="{% url 'editar_contenido' contenido.id %}">
+      <strong>{{ contenido.titulo }}</strong>
+    </a><br>
+    Creado: {{ contenido.creado }}<br>
+    <pre>{{ contenido.cuerpo|safe }}</pre>
+  </li>
+  {% empty %}
+  <li>No hay contenidos aún.</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'dashboard' %}" class="btn-volver">← Volver</a>
+
+<style>
+  .btn-volver {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+  }
+
+  .btn-volver:hover {
+    background-color: #0056b3;
+  }
+</style>

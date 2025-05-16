@@ -1,8 +1,12 @@
+# app/urls.py
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from django.views.generic.base import RedirectView
-from users.views import SignUpView, dashboard_view, manage_users, update_user_roles, profile_view, edit_user_role
+from users.views import (
+    SignUpView, dashboard_view, manage_users,
+    update_user_roles, profile_view, edit_user_role
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -16,4 +20,10 @@ urlpatterns = [
     path('usuarios/update_roles/', update_user_roles, name='update_user_roles'),
     path('profile/', profile_view, name='profile'),
     path('usuarios/<int:pk>/edit-role/', edit_user_role, name='edit_user_role'),
+    path('contenido/', include('app.urls_contenido')),
 ]
+
+from django.conf import settings
+from django.conf.urls.static import static
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

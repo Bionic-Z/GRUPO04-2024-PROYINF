@@ -15,5 +15,28 @@
     {% include "users/dashboard_guest.html" %}
   {% endif %}
   {% endwith %}
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <a href="{% url 'crear_contenido' %}" class="text-decoration-none">
+        <div class="card text-center shadow-sm border-primary">
+          <div class="card-body">
+            <h5 class="card-title">📝 Crear contenido</h5>
+            <p class="card-text">Selecciona una plantilla y comienza a editar contenido.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-6">
+      <a href="{% url 'lista_contenido' %}" class="text-decoration-none">
+        <div class="card text-center shadow-sm border-success">
+          <div class="card-body">
+            <h5 class="card-title">📁 Contenido creado</h5>
+            <p class="card-text">Visualiza o continúa editando contenidos guardados.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+  
 </div>
 {% endblock %}

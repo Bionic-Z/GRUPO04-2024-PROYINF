@@ -1,0 +1,101 @@
+<!-- crear_contenido.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{% if editar %}Editar{% else %}Crear{% endif %} contenido</title>
+  <script src="https://cdn.tiny.cloud/1/t4ypu7agjr2qrvfnxd2t0opyc4hnqz8mocjdzz4oi3vnkdtv/tinymce/6/tinymce.min.js"
+    referrerpolicy="origin"></script>
+  <script>
+    // Obtener el token CSRF desde las cookies
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let cookie of cookies) {
+          cookie = cookie.trim();
+          if (cookie.startsWith(name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    tinymce.init({
+      selector: '#contenido',
+      height: 500,
+      plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table code help wordcount',
+      toolbar: 'undo redo | blocks | bold italic underline | alignleft aligncenter alignright | bullist numlist outdent indent | link image media | code',
+      images_upload_handler: function (blobInfo, progress) {
+        return new Promise(function (resolve, reject) {
+          const formData = new FormData();
+          formData.append('image', blobInfo.blob(), blobInfo.filename());
+
+          fetch('/contenido/upload/', {
+            method: 'POST',
+            body: formData,
+            headers: {
+              'X-CSRFToken': csrftoken
+            },
+          })
+            .then(response => {
+              if (!response.ok) {
+                reject('Error en la respuesta del servidor: ' + response.status);
+              }
+              return response.json();
+            })
+            .then(json => {
+              if (json.success) {
+                resolve(json.file.url);
+              } else {
+                reject('Error al subir imagen: ' + json.message);
+              }
+            })
+            .catch(error => {
+              reject('Error de red: ' + error.message);
+            });
+        });
+      }
+    });    
+  </script>
+</head>
+
+<body>
+  <h1>{% if editar %}Editar{% else %}Crear{% endif %} contenido</h1>
+
+  <form method="POST">
+    {% csrf_token %}
+    <input type="text" name="titulo" placeholder="Título" value="{{ contenido.titulo|default_if_none:'' }}"
+      required><br><br>
+    <textarea id="contenido" name="contenido">{{ contenido.cuerpo|default_if_none:'' }}</textarea>
+    <br><button type="submit">Guardar</button>
+  </form>
+
+  <a href="{% url 'dashboard' %}" class="btn-volver">← Volver</a>
+
+  <style>
+    .btn-volver {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+    }
+
+    .btn-volver:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</body>
+
+</html>

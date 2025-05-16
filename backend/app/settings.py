@@ -139,3 +139,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = '/dashboard/' 
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+
+# Configuraciones relacionadas con el editor visual
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
