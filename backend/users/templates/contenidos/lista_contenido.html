@@ -1,36 +1,125 @@
-<h1>Contenidos guardados</h1>
+<!DOCTYPE html>
+<html lang="es">
 
-<ul>
-  {% for contenido in contenidos %}
-  <li>
-    <a href="{% url 'editar_contenido' contenido.id %}">
-      <strong>{{ contenido.titulo }}</strong>
-    </a><br>
-    Creado: {{ contenido.creado }}<br>
-    <pre>{{ contenido.cuerpo|safe }}</pre>
-  </li>
-  {% empty %}
-  <li>No hay contenidos aún.</li>
-  {% endfor %}
-</ul>
-<a href="{% url 'dashboard' %}" class="btn-volver">← Volver</a>
+<head>
+  <meta charset="UTF-8">
+  <title>Contenidos Guardados</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f8f9fa;
+      margin: 0;
+      padding: 0 0 60px 0;
+    }
 
-<style>
-  .btn-volver {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    padding: 10px 15px;
-    background-color: #007bff;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: bold;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    z-index: 1000;
-  }
+    .container {
+      max-width: 60vw;
+      margin: 40px auto 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      padding: 32px 40px 24px 40px;
+    }
 
-  .btn-volver:hover {
-    background-color: #0056b3;
-  }
-</style>
+    h1 {
+      text-align: center;
+      color: #343a40;
+      margin-bottom: 32px;
+      font-size: 2.2em;
+      letter-spacing: 1px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 24px 0;
+    }
+
+    li {
+      background: #f1f3f6;
+      margin-bottom: 18px;
+      border-radius: 7px;
+      padding: 18px 22px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+      transition: box-shadow 0.2s;
+    }
+
+    li:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    a {
+      color: #007bff;
+      text-decoration: none;
+      font-size: 1.15em;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .contenido-fecha {
+      color: #888;
+      font-size: 0.95em;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .contenido-cuerpo img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+
+
+    .btn-volver {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      padding: 10px 18px;
+      background-color: #007bff;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      z-index: 1000;
+      font-size: 1.1em;
+      transition: background 0.2s;
+    }
+
+    .btn-volver:hover {
+      background-color: #0056b3;
+    }
+
+    .empty-msg {
+      text-align: center;
+      color: #999;
+      font-size: 1.1em;
+      margin: 32px 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Contenidos guardados</h1>
+    <ul>
+      {% for contenido in contenidos %}
+      <li>
+        <a href="{% url 'editar_contenido' contenido.id %}">
+          <strong>{{ contenido.titulo }}</strong>
+        </a>
+        <span class="contenido-fecha">Creado: {{ contenido.creado|date:"d/m/Y, H:i" }}</span>
+        <div class="contenido-cuerpo">{{ contenido.cuerpo|safe }}</div>
+      </li>
+      {% empty %}
+      <li class="empty-msg">No hay contenidos aún.</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <a href="{% url 'dashboard' %}" class="btn-volver">← Volver</a>
+</body>
+
+</html>

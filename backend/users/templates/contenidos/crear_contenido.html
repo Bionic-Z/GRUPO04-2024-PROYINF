@@ -7,7 +7,6 @@
   <script src="https://cdn.tiny.cloud/1/t4ypu7agjr2qrvfnxd2t0opyc4hnqz8mocjdzz4oi3vnkdtv/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
   <script>
-    // Obtener el token CSRF desde las cookies
     function getCookie(name) {
       let cookieValue = null;
       if (document.cookie && document.cookie !== '') {
@@ -22,9 +21,7 @@
       }
       return cookieValue;
     }
-
     const csrftoken = getCookie('csrftoken');
-
     tinymce.init({
       selector: '#contenido',
       height: 500,
@@ -34,7 +31,6 @@
         return new Promise(function (resolve, reject) {
           const formData = new FormData();
           formData.append('image', blobInfo.blob(), blobInfo.filename());
-
           fetch('/contenido/upload/', {
             method: 'POST',
             body: formData,
@@ -60,42 +56,131 @@
             });
         });
       }
-    });    
+    });
   </script>
-</head>
-
-<body>
-  <h1>{% if editar %}Editar{% else %}Crear{% endif %} contenido</h1>
-
-  <form method="POST">
-    {% csrf_token %}
-    <input type="text" name="titulo" placeholder="Título" value="{{ contenido.titulo|default_if_none:'' }}"
-      required><br><br>
-    <textarea id="contenido" name="contenido">{{ contenido.cuerpo|default_if_none:'' }}</textarea>
-    <br><button type="submit">Guardar</button>
-  </form>
-
-  <a href="{% url 'dashboard' %}" class="btn-volver">← Volver</a>
-
   <style>
+    body {
+      background: linear-gradient(120deg, #f0f4ff 0%, #e2eafc 100%);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      min-height: 100vh;
+      color: #222;
+    }
+
+    .container {
+      max-width: 650px;
+      margin: 40px auto 0 auto;
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 4px 24px rgba(0, 60, 120, 0.10);
+      padding: 40px 32px 32px 32px;
+      position: relative;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 32px;
+      font-size: 2.2rem;
+      color: #2a4d8f;
+      letter-spacing: 1px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    input[type="text"] {
+      padding: 12px 14px;
+      border: 1.5px solid #b6c6e3;
+      border-radius: 7px;
+      font-size: 1.1rem;
+      transition: border-color 0.2s;
+      outline: none;
+      background: #f8fbff;
+    }
+
+    input[type="text"]:focus {
+      border-color: #2a4d8f;
+      background: #fff;
+    }
+
+    textarea {
+      border-radius: 7px;
+      border: 1.5px solid #b6c6e3;
+      font-size: 1.1rem;
+      padding: 10px;
+      min-height: 180px;
+      background: #f8fbff;
+      resize: vertical;
+    }
+
+    button[type="submit"] {
+      background: linear-gradient(90deg, #2a4d8f 0%, #4e8cff 100%);
+      color: #fff;
+      border: none;
+      border-radius: 7px;
+      padding: 13px 0;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(42, 77, 143, 0.10);
+      transition: background 0.2s, box-shadow 0.2s;
+      margin-top: 10px;
+    }
+
+    button[type="submit"]:hover {
+      background: linear-gradient(90deg, #1d3557 0%, #457b9d 100%);
+      box-shadow: 0 4px 16px rgba(42, 77, 143, 0.13);
+    }
+
     .btn-volver {
       position: fixed;
-      bottom: 20px;
-      left: 20px;
-      padding: 10px 15px;
-      background-color: #007bff;
+      bottom: 24px;
+      left: 24px;
+      padding: 12px 20px;
+      background: linear-gradient(90deg, #457b9d 0%, #2a4d8f 100%);
       color: white;
       text-decoration: none;
-      border-radius: 6px;
+      border-radius: 7px;
       font-weight: bold;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 2px 8px rgba(42, 77, 143, 0.18);
       z-index: 1000;
+      font-size: 1rem;
+      transition: background 0.2s, box-shadow 0.2s;
+      border: none;
+      outline: none;
     }
 
     .btn-volver:hover {
-      background-color: #0056b3;
+      background: linear-gradient(90deg, #274472 0%, #1d3557 100%);
+      box-shadow: 0 4px 16px rgba(42, 77, 143, 0.23);
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        padding: 18px 6vw 24px 6vw;
+        margin: 18px 0 0 0;
+      }
+      h1 {
+        font-size: 1.3rem;
+      }
     }
   </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>{% if editar %}Editar{% else %}Crear{% endif %} contenido</h1>
+    <form method="POST">
+      {% csrf_token %}
+      <input type="text" name="titulo" placeholder="Título" value="{{ contenido.titulo|default_if_none:'' }}" required>
+      <textarea id="contenido" name="contenido">{{ contenido.cuerpo|default_if_none:'' }}</textarea>
+      <button type="submit">Guardar</button>
+    </form>
+  </div>
+  <a href="{% url 'dashboard' %}" class="btn-volver">← Volver</a>
 </body>
 
 </html>
