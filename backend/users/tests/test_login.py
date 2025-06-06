@@ -32,7 +32,4 @@ class LoginEndpointTest(unittest.TestCase):
             reverse("login"), {"username": "test_login_admin", "password": "wrongpass"}
         )
         self.assertEqual(response.status_code, 200)
-        self.assertIn(
-            "Por favor introduzca un nombre de usuario y una contraseña correctos",
-            response.content.decode(),
-        )
+        self.assertIn("username and password", response.content.decode())

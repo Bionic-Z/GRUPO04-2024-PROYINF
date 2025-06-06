@@ -14,7 +14,7 @@ class ManageUsersEndpointTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.client = Client()
-        cls.admin_group = Group.objects.create(name="admin") #! esto puede tener errores con la bd poblada (unique)
+        cls.admin_group, _ = Group.objects.get_or_create(name="admin") 
         cls.admin_user = CustomUser.objects.create_user(
             username="test_manage_admin", password="admin123"
         )
