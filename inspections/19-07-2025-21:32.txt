@@ -1,0 +1,8 @@
+/**
+ * Registro de cambios:
+ *
+ * - Se agregó el atributo `lang` a la etiqueta HTML para mejorar la accesibilidad y asegurar la correcta identificación del idioma por navegadores y tecnologías de asistencia.
+ * - Se ajustaron los tamaños de los encabezados para mejorar la estructura del contenido y la accesibilidad para usuarios que utilizan lectores de pantalla.
+ * - Se refactorizó la lógica de carga de imágenes para generar nombres de archivo únicos en cada imagen subida, evitando colisiones y sobrescrituras.
+ * - Se limpiaron las declaraciones de importación para mejorar la organización y mantenibilidad del código.
+ */
