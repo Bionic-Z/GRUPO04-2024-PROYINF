@@ -1,6 +1,10 @@
 from django.shortcuts import render, redirect
 from .models import Contenido
 from django.contrib import messages
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Contenido
+from django.urls import reverse
+import uuid
 
 
 def crear_contenido(request):
@@ -26,13 +30,16 @@ def upload_image(request):
 
         upload_path = os.path.join(settings.MEDIA_ROOT, "uploads")
         os.makedirs(upload_path, exist_ok=True)
-        file_path = os.path.join(upload_path, image.name)
+
+        ext = os.path.splitext(image.name)[1]
+        unique_name = f"{uuid.uuid4().hex}{ext}"
+        file_path = os.path.join(upload_path, unique_name)
 
         with open(file_path, "wb+") as f:
             for chunk in image.chunks():
                 f.write(chunk)
 
-        image_url = f"{settings.MEDIA_URL}uploads/{image.name}"
+        image_url = f"{settings.MEDIA_URL}uploads/{unique_name}"
         return JsonResponse({"success": 1, "file": {"url": image_url}})
 
     return JsonResponse({"success": 0, "message": "Invalid request"})
@@ -47,11 +54,6 @@ def lista_contenido(request):
     return render(
         request, "contenidos/lista_contenido.html", {"contenidos": contenidos}
     )
-
-
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Contenido
-from django.urls import reverse
 
 
 def editar_contenido(request, contenido_id):
