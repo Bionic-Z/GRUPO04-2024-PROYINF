@@ -60,6 +60,7 @@ Esta información se encuentra en la carpeta `inspections/` del repositorio base
 - Se refactorizó la lógica de carga de imágenes para generar nombres de archivo únicos en cada imagen subida, evitando colisiones y sobrescrituras.
 - Se limpiaron las declaraciones de importación para mejorar la organización y mantenibilidad del código.
 
+### Resultados de re-inspección con SonarQube
 ![image](https://github.com/user-attachments/assets/19ed7b3c-9451-401d-a10f-72ebf4bc8a0f)
 
 ### Commits asociados
