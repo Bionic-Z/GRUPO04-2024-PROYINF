@@ -10,12 +10,22 @@ Se realizaron tres pruebas de carga en el proyecto, identificando posibles defec
 * Petición HTTP: GET
 *	Cantidad de usuarios simulados: 5000
 
-(Insertar foto)
-  
-*	Condición esperada: El sistema responde en menos de 1 segundo (1000 ms) para cada usuario.
-*	Presentación del gráfico:
+<p align="center">
+  <img src="imagen/Imagen1.png" width="385" height="267">
+</p>
 
-(Insertar foto)
+*	Condición esperada: El sistema responde en menos de 1 segundo (1000 ms) para cada usuario.
+*	Resultados:
+
+<p align="center">
+  <img src="imagen/Resultados1.png" width="250" height="180">
+</p>
+  
+*	Presentación del gráfico:
+  
+<p align="center">
+  <img src="imagen/Grafico1.png" width="500" height="300">
+</p>
   
 *	Interpretación del gráfico (Tiempo de respuesta):
 
@@ -33,12 +43,24 @@ Algunas razones por las que no se cumple siempre la condición esperada podrían
 * Petición HTTP: POST
 *	Cantidad de usuarios simulados: 1000
 
-(Insertar foto)
+<p align="center">
+  <img src="imagen/Imagen2.png" width="385" height="267">
+</p>
+
+*	Condición esperada: El sistema responde en menos de 1 segundo (1000 ms) para cada usuario.
+*	Resultados:
+
+<p align="center">
+  <img src="imagen/Resultados2.png" width="250" height="180">
+</p>
   
 *	Condición esperada: El sistema responde en menos de 1 segundo (1000 ms) para cada usuario.
 *	Presentación del gráfico:
 
-(Insertar foto)
+<p align="center">
+  <img src="imagen/Grafico2.png" width="500" height="300">
+</p>
+  
   
 *	Interpretación del gráfico (Tiempo de respuesta):
 
@@ -59,12 +81,24 @@ Además, es posible confirmar que esta prueba es fallida, lo que significa que e
 * Petición HTTP: POST
 *	Cantidad de usuarios simulados: 1000
 
-(Insertar foto)
+<p align="center">
+  <img src="imagen/Imagen3.png" width="385" height="267">
+</p>
+
+*	Condición esperada: El sistema responde en menos de 1 segundo (1000 ms) para cada usuario.
+*	Resultados:
+
+<p align="center">
+  <img src="imagen/Resultados3.png" width="250" height="180">
+</p>
   
 *	Condición esperada: El sistema responde en menos de 1 segundo (1000 ms) para cada usuario.
 *	Presentación del gráfico:
 
-(Insertar foto)
+<p align="center">
+  <img src="imagen/Grafico3.png" width="500" height="300">
+</p>
+  
   
 *	Interpretación del gráfico (Tiempo de respuesta):
 
