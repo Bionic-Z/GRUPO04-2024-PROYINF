@@ -50,20 +50,3 @@ Modificar el código para generar un nombre de archivo aleatorio usando `uuid.uu
 Actualizar el HTML con `lang="es"` y simplificar el bucle afectado
 
 ---
-
-## Registro de Cambios
-
-Esta información se encuentra en la carpeta `inspections/` del repositorio base.
-
-- Se agregó el atributo `lang` a la etiqueta HTML para mejorar la accesibilidad y asegurar la correcta identificación del idioma por navegadores y tecnologías de asistencia.
-- Se ajustaron los tamaños de los encabezados para mejorar la estructura del contenido y la accesibilidad para usuarios que utilizan lectores de pantalla.
-- Se refactorizó la lógica de carga de imágenes para generar nombres de archivo únicos en cada imagen subida, evitando colisiones y sobrescrituras.
-- Se limpiaron las declaraciones de importación para mejorar la organización y mantenibilidad del código.
-
-### Resultados de re-inspección con SonarQube
-![image](https://github.com/user-attachments/assets/19ed7b3c-9451-401d-a10f-72ebf4bc8a0f)
-
-### Commits asociados
-
-- [`0a8958421a816852c41484bece9d264db66b56cc`](https://github.com/Bionic-Z/GRUPO04-2024-PROYINF/commit/0a8958421a816852c41484bece9d264db66b56cc): Add language attribute to HTML tag and adjust heading size for improved accessibility
-- [`dc045876c3b563f49e07dd74438b386dd60a3379`](https://github.com/Bionic-Z/GRUPO04-2024-PROYINF/commit/dc045876c3b563f49e07dd74438b386dd60a3379): Refactor image upload logic to use unique filenames and clean up imports
