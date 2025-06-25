@@ -1,4 +1,4 @@
-# Inspección de Código - Hito 5
+# Re-Inspección de Código - Hito 5
 
 ## Herramienta usada: SonarCloud
 
@@ -17,7 +17,7 @@ El nuevo análisis no muestra problemas de ningún nivel en el nuevo código añ
 
 Sin embargo, en forma general, presenta problemas de seguridad dentro de `contenido_view` a pesar de los cambios
 
-El resultado puede deberse a diversos factores, pero una hipótesis sería que la solución realizada era útil para el problema en el código del momento, por lo que probablemente el código nuevo es equivalente a pesar de ser una solución distinta.
+El resultado se debe a que se concatena el nombre de la imagen con el uuid4, pero a pesar de que uuid4() hace que el nombre parezca único, el path sigue siendo vulnerable si se concatena directamente, algo que en el momento no consideramos.
 
 ### Commits asociados
 
